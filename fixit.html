@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Arrays using javascript</title>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+</head>
+<style>
+    td{
+        padding-bottom: 10px;
+    }
+    #complete{
+        text-decoration:line-through;
+    }   
+</style>
+
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <h3><b>ADD ITEM</b></h3>
+                <hr style="border:2px solid black;" />
+                <br />
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                        <input type="text" id="element" class="form-control" style="border:1px solid black;" id="input">
+                    </div>
+
+                    &nbsp;
+                    <button type="button" id="add" class="btn btn-default" onClick='add_element()' ;>Add</button>
+                </div>
+                <div id="div1"></div>
+
+                <h3 id="h3"><b>TODO</b></h3>
+                <hr style="border:2px solid black;" />
+                <div>
+                    <table id="todo" style="width:100%">
+                    </table>
+                </div>
+
+                <h3><b>COMPLETED</b></h3>
+                <hr style="border:2px solid black;" />
+                <div>
+                    <table id="complete" style="width:100%">
+                    </table>
+                </div>
+
+
+
+                <script>
+                    var arr = new Array();
+
+
+                    var tbody = document.createElement("tbody");
+                    tbody.id = "tbody";
+                    var tcbody = document.createElement("tbody");
+                    tcbody.id = "tcbody";
+
+
+                    var tr = function (elements) {
+                        var i;
+                        for (i = elements.length - 1; i < elements.length; i++) {
+
+                            var tr = document.createElement("tr");
+
+                            var td1 = document.createElement("td");
+                            var td2 = document.createElement("td");
+                            var td3 = document.createElement("td");
+                            var td4 = document.createElement("td");
+                            td1.style.columnWidth = "20px";
+                            td2.style.columnWidth = "150px";
+                            tr.id = i;
+
+                            var checkbox = document.createElement("input");
+                            checkbox.id = i;
+                            checkbox.type = "checkbox";
+
+
+                            var div = document.createElement("div");
+                            div.id = "div" + i;
+                            div.style.font = " 20px arial,serif";
+                            var input = document.createElement("input");
+
+                            input.type = "text";
+
+                            var button = document.createElement("button");
+                            button.id = i;
+
+                            var dbutton = document.createElement("button");
+                            dbutton.id = i;
+                            td1.appendChild(checkbox);
+                            tr.appendChild(td1);
+                            td2.appendChild(div);
+                            tr.appendChild(td2);
+                            td3.appendChild(button);
+                            tr.appendChild(td3);
+                            td4.appendChild(dbutton);
+                            tr.appendChild(td4);
+
+
+                            div.innerText = elements[i];
+                            button.innerText = "Edit";
+                            button.className = "btn btn-default";
+                            dbutton.innerText = "Delete";
+                            dbutton.style.justifyContent = "space-between";
+                            dbutton.className = "btn btn-default";
+                            checkbox.addEventListener("click",
+                                function fn() {
+                                    var l = document.getElementById('i');
+                                    var l = this.parentNode;
+                                    var t = l.parentNode;
+                                    var h = t.parentNode;
+                                    if (h.id == "tbody") {
+                                        var p = document.getElementById("complete");
+                                        tcbody.appendChild(t);
+                                        p.appendChild(tcbody);
+                                    }
+                                    if (h.id == "tcbody") {
+                                        var p = document.getElementById("todo");
+                                        tbody.appendChild(t);
+                                        p.appendChild(tbody);
+                                    }
+
+
+
+                                });
+                            dbutton.addEventListener("click",
+                                function fn() {
+
+                                    var l = document.getElementById('i');
+                                    var l = this.parentNode;
+                                    var t = l.parentNode;
+                                    var h = t.parentNode;
+                                    h.removeChild(t);
+
+
+                                });
+                            button.addEventListener("click", function fn() {
+                                var input = document.createElement("input");
+                                input.id = "ip" + i;
+                                if (this.innerText == "Edit") {
+                                    this.innerText = "Save";
+                                    this.className = "btn btn-default";
+                                    console.log("hloo");
+                                    input.style['width'] = '150px';
+                                    input.value = div.innerText;
+                                    div.innerText = '';
+                                    div.append(input);
+                                } else {
+                                    this.innerText = "Edit";
+                                    var j = Number(i) - 1;
+                                    elements[j] = document.getElementById("ip" + i).value;
+                                    console.log(elements);
+                                    div.innerText = elements[j];
+
+                                    console.log(i);
+                                }
+                            });
+                        }
+                        return tr;
+                    }
+
+                    function add_element() {
+                        var tb = document.getElementById("todo");
+                        if(document.getElementById('element').value!=""){
+                        arr.push(document.getElementById('element').value);
+                        document.getElementById('element').value = '';
+                        var f = tr(arr);
+                        tbody.appendChild(f);
+                        tb.appendChild(tbody);
+                    }
+                    else{
+                        alert("Please enter something!!!");
+                    }
+                    }
+                </script>
+
+            </div>
+
+        </div>
+        <style>
+
+        </style>
+
+</body>
+
+</html>
